@@ -60,13 +60,16 @@ define([
                     });
 
                 if ( gameItem ) {
+
+                    // Go through each of gameItem's attached goals
                     _.each( gameItem.get('goals'), function( goal ) {
 
-                        // Only validate if goal not reached
+                        // Only validate if goal not already reached
                         if ( !goal.get('isGoalReached') ) {
                             // evaluate current goal and react upon it
                             goalResults.push( goal.evaluate( gameItem, items, scene ) );
                         } else {
+                            // Goal already reached so just do not test, just return true
                             goalResults.push( true );
                         }
 
@@ -94,6 +97,7 @@ define([
 
                     return true;
                 } else {
+                    // GameItem do not exits
                     return false;
                 }
             
