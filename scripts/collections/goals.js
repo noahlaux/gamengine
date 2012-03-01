@@ -81,18 +81,15 @@ define([
                         // Flag item
                         gameItem.set('hasReachedGoals', true);
 
-                        // Send to game engine
+                        // Trigger event
                         gameItem.trigger('itemAllGoalsReached', item, items );
                     }
 
-                    // Check if all items goals have been met
+                    // Check if all items in collection have all their goals reached
                     if ( this.hasAllItemsAllGoalsReached( items ) ) {
 
-                        // Local handling
-                        // TODO
-
-                        // Send to game engine
-                        //scene.allItemsAllGoalReached( item, items );
+                        // Trigger event
+                        gameItem.trigger('allItemsAllGoalReached', item, items );
                     }
 
                     return true;
@@ -105,7 +102,7 @@ define([
             /**
              * Check if all item goals have been reached
              *
-             * @param  {Array[Boolean]}  goalResults Array of gold results
+             * @param  {Array[Boolean]} goalResults Array of goal results
              * @return {Boolean}
              */
             hasItemAllGoalsReached: function( goalResults ) {
@@ -114,7 +111,7 @@ define([
                 }).length === 0 );
             },
             /**
-             * Check if all items have met their goals
+             * Check if all items have reached all their respective goals
              *
              * @param {Backbone collection} items Current game items
              * @return {Boolean}
