@@ -1,0 +1,57 @@
+[
+    {
+        "name":           "Banana",
+        "startPosition":  [ 200, 200 ],
+        "moveSteps":      [ 4, 2 ],
+        "className":      "banana",
+        "direction":      "ne",
+        "image":          "public/images/banana.png"
+    },
+    {
+        "name":           "Apple",
+        "startPosition":  [ 50, 50 ],
+        "moveSteps":      [ 1, 3 ],
+        "className":      "apple",
+        "direction":      "ne",
+        "image":          "public/images/apple.png"
+    },
+    {
+        "name":           "Cubcake",
+        "startPosition":  [ 10, 80 ],
+        "moveSteps":      [ 3, 5 ],
+        "className":      "cubcake",
+        "direction":      "ne",
+        "image":          "public/images/cubcake.png"
+    },
+    {
+        "name":           "Banana Animated",
+        "startPosition":  [ 250, 30 ],
+        "moveSteps":      [ 2, 2 ],
+        "className":      "banana_animated",
+        "direction":      "se",
+        "image":          "public/images/banana_animated.gif"
+    },
+    {
+        "name":           "Penguin",
+        "startPosition":  [ 10, 25 ],
+        "moveSteps":      [ 2, 4 ],
+        "className":      "penguin",
+        "direction":      "nw",
+        "image":          "public/images/penguin.gif"
+    },
+    {
+        "name":           "Belly dance",
+        "startPosition":  [ 40, 250 ],
+        "moveSteps":      [ 2, 3 ],
+        "className":      "belly-dance",
+        "direction":      "sw",
+        "image":          "public/images/belly-dance.gif"
+    },
+    {
+        "name":           "Cherry",
+        "startPosition":  [ 0, 0 ],
+        "moveSteps":      [ 1, 2 ],
+        "className":      "cherry",
+        "image":          "public/images/cherry.png"
+    }
+]

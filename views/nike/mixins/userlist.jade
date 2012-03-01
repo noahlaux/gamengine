@@ -1,0 +1,12 @@
+
+mixin userlist(userid)
+  ul.userlist
+    - each user in users
+      li 
+        .userimage 
+          img.image(src='/images/users/thumb/#{user.cookie.userImage}.jpg')
+        #{unescape(user.cookie.userName)}
+        - if (user.position)
+          div.position #{user.position.coords.latitude.toFixed(8)},#{user.position.coords.longitude.toFixed(8)}
+        - else
+          div.position.error No position found

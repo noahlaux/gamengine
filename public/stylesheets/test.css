@@ -1,0 +1,268 @@
+/* 
+    Document   : test
+    Created on : 24-02-2012, 20:51:12
+    Author     : noahlaux
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    background-color: #000;
+    font-family: sans-serif;
+}
+
+h3 {
+    margin: 0 0 10px 0;
+}
+
+#container {
+    background: url('../images/background1.jpg') 0 0;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    /*background-color: #0d3349;*/
+    /*overflow: hidden;*/
+    margin: 0 auto;
+    z-index: 0;
+    display: none;
+}
+
+.loading {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: bold;
+}
+
+.loading .inner {
+    top: 50%;
+    margin-top: -33px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+}
+
+.loading .background {
+    background-color: #000;
+    opacity: .8;
+    position: absolute;
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* SCORE ---------------------------------------------------------------------*/
+.score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    color: #eee;
+    border-bottom: 5px solid #000;
+    z-index:1;
+}
+
+.score .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.score .background {
+    background-color: #000;
+    opacity: .6;
+    position: absolute;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.score ul {
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.score ul li:first-child {
+    border-left: 2px solid maroon;
+    margin-left: 0;
+    padding-left: 10px;
+} 
+
+.score ul li {
+    list-style: none;
+    float: left;
+    margin-right: 10px;
+    font-size: 1.5em;
+    border-right: 2px solid maroon;
+    padding-right: 10px;
+}
+
+
+
+.score ul li img {
+    width: 20px;
+}
+
+/* Game items ----------------------------------------------------------------*/
+.gameItem {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #aaa;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.redBall {
+    border: 2px solid #000;
+    border-radius: 20px;
+    background-color: red;
+}
+
+.greenBox {
+    background-color: green;
+}
+
+.yellowFun {
+    border: 2px solid #000;
+    background-color: yellow;
+    height: 30px;
+    width: 70px;
+}
+
+.funkyItem {
+    border: 2px solid #000;
+    padding: 20px;
+    box-shadow: 1px 1px 15px #000;
+    border-radius: 5px;
+}
+
+.funkyItem span {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.cherry {
+    background: url('../images/cherry.png') top left no-repeat;
+    height: 64px;
+    width: 64px;
+}
+
+.banana {
+    background: url('../images/banana.png') top left no-repeat;
+    height: 64px;
+    width: 64px;
+}
+
+.banana_animated {
+    background: url('../images/banana_animated.gif') top left no-repeat;
+    height: 35px;
+    width: 33px;
+}
+
+.monkey_animated {
+    background: url('../images/monkey_animated.gif') top left no-repeat;
+    height: 48px;
+    width: 45px;
+}
+
+.cubcake {
+    background: url('../images/cubcake.png') top left no-repeat;
+    height: 64px;
+    width: 64px;
+}
+
+.apple {
+    background: url('../images/apple.png') top left no-repeat;
+    height: 64px;
+    width: 64px;
+} 
+
+.belly-dance {
+    background: url('../images/belly-dance.gif') top left no-repeat;
+    height: 50px;
+    width: 50px;
+}
+
+.penguin {
+    background: url('../images/penguin.gif') top left no-repeat;
+    height: 50px;
+    width: 50px;
+}
+
+/* Spinner */
+#bowlG{
+position:relative;
+width:56px;
+height:56px;
+margin: 0 auto;
+}
+
+#bowl_ringG{
+position:absolute;
+width:56px;
+height:56px;
+border:5px solid #525252;
+-moz-border-radius:56px;
+-webkit-border-radius:56px;
+}
+
+.ball_holderG{
+position:absolute;
+width:15px;
+height:56px;
+left:21px;
+top:0px;
+-webkit-animation-name:ball_moveG;
+-webkit-animation-duration:1.3s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-timing-function:linear;
+-moz-animation-name:ball_moveG;
+-moz-animation-duration:1.3s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-timing-function:linear;
+}
+
+.ballG{
+position:absolute;
+left:0px;
+top:-13px;
+width:22px;
+height:22px;
+background:#FFFFFF;
+-moz-border-radius:19px;
+-webkit-border-radius:19px;
+}
+
+@-webkit-keyframes ball_moveG{
+0%{
+-webkit-transform:rotate(0deg)}
+
+100%{
+-webkit-transform:rotate(360deg)}
+
+}
+
+@-moz-keyframes ball_moveG{
+0%{
+-moz-transform:rotate(0deg)}
+
+100%{
+-moz-transform:rotate(360deg)}
+
+}
