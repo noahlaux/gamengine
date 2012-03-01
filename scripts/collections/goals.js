@@ -19,7 +19,8 @@ define([
              * @param {Object} options
              */
             initialize: function( options ) {
-
+                this.evaluated = [];
+                this.goalDurations = [];
             },
             /**
              * Get goal
@@ -66,17 +67,44 @@ define([
 
                         // Only validate if goal not already reached
                         if ( !goal.get('isGoalReached') ) {
+
+                            // log start timestamp
+                            var start = +new Date();
+
                             // evaluate current goal and react upon it
                             goalResults.push( goal.evaluate( gameItem, items, scene ) );
+
+                            // log end timestamp
+                            var end = +new Date();
+
+                            // Calculate evaluation time
+                            var diff = end - start;
+
+                            if ( self.evaluated.indexOf( goal.get('id') ) === -1 ) {
+                                
+                                self.goalDurations.push( { name: goal.get('id'), time: diff } );
+
+                                self.evaluated.push( goal.get('id') );
+                                self.shouldTriggerEvaluationDurations = true;
+
+                            } else {
+                                self.shouldTriggerEvaluationDurations = false;
+                            }
+
                         } else {
                             // Goal already reached so just do not test, just return true
                             goalResults.push( true );
                         }
 
                     });
+                    /*
+                    if ( this.shouldTriggerEvaluationDurations ) {
+                        self.trigger( 'evaluateDurations', goalDurations );
+                    }
+                    */
 
                     // Check if all item goals has been reached
-                    if ( this.hasItemAllGoalsReached( goalResults ) ) {
+                    if ( this.hasItemAllGoalsReached( goalResults ) && !gameItem.get('hasReachedGoals') ) {
 
                         // Flag item
                         gameItem.set('hasReachedGoals', true);
@@ -89,7 +117,7 @@ define([
                     if ( this.hasAllItemsAllGoalsReached( items ) ) {
 
                         // Trigger event
-                        gameItem.trigger('allItemsAllGoalReached', item, items );
+                        gameItem.trigger('allItemsAllGoalsReached', item, items );
                     }
 
                     return true;

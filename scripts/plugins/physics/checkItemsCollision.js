@@ -1,8 +1,8 @@
 define( function() {
-/** 
+/**
  * Check if item collides with other items bounderies PLUGIN
  * TODO finish this!!!
- * 
+ *
  * @return {Function}
  */
     var logic = function ( options ) {
@@ -10,8 +10,8 @@ define( function() {
         var self            = this,
             currentItem     = options.get('item'),
             moveSteps       = currentItem.get('moveSteps'),
-            currentPosition = options.app.getCurrentPosition( currentItem ), 
-            otherItems      = _.filter( this.collection.models, function ( model ) { // NB WE DONT HAVE this.collection.models, get from options
+            currentPosition = options.app.getCurrentPosition( currentItem ),
+            otherItems      = _.filter( this.collection.models, function ( model ) { // NB WE DONT HAVE this.collection.models so this will break, get from options
                 // Filter out the current item from the list
                 return model !== self;
             });
@@ -30,7 +30,7 @@ define( function() {
             }
         });
 
-    }
+    };
     
     return logic;
 });

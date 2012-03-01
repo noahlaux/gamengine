@@ -50,6 +50,8 @@ define([
                 //console.log('game item view render');
                
                this.calculateStyle();
+
+               // Return for changing
                return this;
             },
             /**

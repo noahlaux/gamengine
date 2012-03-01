@@ -15,6 +15,40 @@ h3 {
     margin: 0 0 10px 0;
 }
 
+#debug {
+    position: absolute;
+    top: 0;
+    left: 0;
+    beckground-color: #000;
+    background-color: black;
+    z-index: 1000;
+    color: #DDD;
+    padding: 5px 10px 5px 10px;
+    font-size: .7em;
+}
+    #debug ul {
+        padding-left: 15px;
+        list-style-type: square;
+        color: #aaa;
+    }
+
+    #debug ul li {
+        padding-left: 0px;
+    }
+
+    #debug h3 {
+        border-bottom: 1px solid;
+    }
+
+    #debug h2 {
+        margin: 0 0 5px 0;
+        color: red;
+    }
+
+    #debug span {
+        color: green;
+    }
+
 #container {
     background: url('../images/background1.jpg') 0 0;
     position: absolute;

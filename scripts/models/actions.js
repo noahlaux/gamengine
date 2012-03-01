@@ -27,7 +27,7 @@ define(
              *
              * @param {String} action
              * @param {Backbone model} item current item to evaluate
-             * @param {Backbone model} scene link to application (scene)
+             * @param {Backbone model} scene link to scene
              */
             perform: function( action, item, scene ) {
 
@@ -36,7 +36,7 @@ define(
                     // Perform action
                     actions[ action.type ]( action, item, scene );
                 } else {
-                    throw new Error("Unsupported action: " + action.type);
+                    throw new Error( 'Unsupported action: ' + action.type );
                 }
             }
         };

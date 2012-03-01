@@ -7,27 +7,27 @@
     }],
     online = [];
 
-  exports.get = function(id) {
+  exports.get = function( id ) {
     return users;
-  }
+  };
 
-  exports.login = function(id) {
+  exports.login = function( id ) {
     
-    if(!isOnline(id)) {
-      online.push(id);   
-      userState(id, true);   
-      console.log(online)  
+    if( !isOnline(id) ) {
+      online.push( id );
+      userState(id, true);
+      console.log(online);
     } else {
       console.log("user already logged in");
     }
     
-  }
+  };
     
-  exports.logoff = function(id) {
+  exports.logoff = function( id ) {
     
-    if(isOnline(id)) {
+    if ( isOnline(id) ) {
       
-      for (onlineId in online) {
+      for ( var onlineId in online ) {
         if (online[onlineId] == id) {
           online[onlineId] = false;
           break;
@@ -38,26 +38,26 @@
       console.log("user already logged off");
     }
     
-  }
+  };
   
-  function isOnline(id) {
+  function isOnline( id ) {
     var state = false;
     
-    for (li in online) {
+    for ( var li in online ) {
       if (online[li] == id) {
         state = true;
         break;
-      }  
+      }
     }
     console.log('User ' + id + ' online:' + state);
     return state;
   }
 
-  function userState(id, state) {
+  function userState( id, state ) {
   
     var foundit = false;
   
-    for(user in users) {
+    for( var user in users ) {
       if(users[user].id == id) {
   
         users[user].online = state;
@@ -68,15 +68,15 @@
 
   exports.online = function () {
     return online;
-  }
+  };
   
   exports.disconnectAll = function () {
     console.log("Disconnect All");
     
-    for (user in users) {
-      userState(users[user].id,false);  
+    for ( var user in users ) {
+      userState(users[user].id,false);
     }
     
     online = [{}];
     return true;
-  }  
+  };

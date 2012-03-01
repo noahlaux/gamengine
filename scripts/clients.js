@@ -17,6 +17,6 @@ var gameClients = {
   get : function () {
     return clients;
   }
-}
+};
 
 exports.get = gameClients.get;

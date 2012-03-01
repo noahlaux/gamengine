@@ -15,10 +15,9 @@ define([
     ], function($, _, Backbone) {
 
     var goal = Backbone.Model.extend({
-        
-        id: 'checkScore8',
         defaults: {
-            'isGoalReached' : false
+            'isGoalReached': false,
+            'id': 'checkScore8'
         },
         /**
          * Evaluate goal condition

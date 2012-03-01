@@ -42,7 +42,7 @@ var user = {
    * @param {Integer} id User id
    * @return {Object} User object
    */
-  get : function(id) {
+  get : function( id ) {
 
     var users = [{
       "id" : 1,
@@ -51,7 +51,7 @@ var user = {
       "id" : 2,
       "username" : "dennis"
     }];
-    console.log(users)
+    console.log(users);
 
     return users[0];
   },

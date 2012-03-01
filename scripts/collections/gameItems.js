@@ -14,7 +14,25 @@ define([
     ], function( $, _, Backbone, GameItem ) {
         
         var collection = Backbone.Collection.extend({
-            model: GameItem // Use standard model
+            model: GameItem, // Use standard model
+            /**
+             * [initialize description]
+             *
+             * @param  {Object} options [description]
+             *
+             * @return N/A
+             */
+            initialize: function( options ) {
+
+                // If we have provided an URL, then fetch models from JSON
+                if ( options && options.url ) {
+                    this.url = options.url;
+
+                    // Fetch models
+                    this.fetch();
+                }
+                
+            }
         });
     
         return collection;

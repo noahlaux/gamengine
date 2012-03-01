@@ -5,5 +5,5 @@ exports.getList = function() {
     }, {
       id : 2,
       name : 'Advanced Test Environment'
-    }]
-}
+    }];
+};

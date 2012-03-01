@@ -1,7 +1,7 @@
 define([
   'order!jquery',
   'order!underscore',
-  'order!backbone',
+  'order!backbone'
 ], function( $, _, Backbone ) {
     
 
@@ -12,7 +12,7 @@ define([
             container:          '#container', // HTML element for output container
             item:               '#item', // HTML element template for game item
             moveSteps:          [ 10, 10 ], // [ x, y ]
-            heading:            [ 'N', 'E' ], // 
+            heading:            [ 'N', 'E' ], //
             speed:              20, // Miliseconds
             startPosition:      [ 0,0 ], // [ x,y ]
             className:          'gameItem', // CSS Class name for game item
@@ -23,7 +23,7 @@ define([
 
         /**
             * Initialize
-            * 
+            *
             * @param {Object} options
             */
         initialize: function( options ) {
@@ -61,11 +61,11 @@ define([
         },
         /**
             * Create a new sauce
-            * 
+            *
             * @param {HTML element} container
             * @param {HTML element} item
             * @param {Array} startPosition
-            * 
+            *
             * @return N/A
             */
         create: function( container, item, startPosition ) {
@@ -91,7 +91,7 @@ define([
         },
         /**
             * Move to a specified position
-            * 
+            *
             * @param {HTML element} item
             * @param {Array} position
             * @return N/A
@@ -110,16 +110,16 @@ define([
         },
         /**
             * Get current position on item
-            * 
+            *
             * @param {HTML element}
             * @return {Array} position
             */
-        getCurrentPosition: function ( item ) {         
+        getCurrentPosition: function ( item ) {
             return this.animation().getPosition( item );
         },
         /**
             * Get current animation method used by browser
-            * 
+            *
             * @return {String} transform | position
             */
         animation: function() {
@@ -130,7 +130,7 @@ define([
                     method: 'transform',
                     /**
                         * Parses position
-                        * 
+                        *
                         * @param {Array} position
                         * @return {String} c
                         */
@@ -145,7 +145,7 @@ define([
                     },
                     /**
                         * Gets position
-                        * 
+                        *
                         * @param {HTML element} item
                         * @return {Oject}
                         */
@@ -169,7 +169,7 @@ define([
         },
         /**
             * Calculates new position
-            * 
+            *
             * @param {HTML element} item
             * @return {Array} position
             */
@@ -190,7 +190,7 @@ define([
         },
         /**
             * Check if item collides with container bounderies
-            * 
+            *
             * @return N/A
             */
             checkContainerCollision: function( ) {
@@ -225,7 +225,7 @@ define([
         },
         /**
             * Check if item collides with other items bounderies
-            * 
+            *
             * @return N/A
             */
         checkItemsCollision: function() {
@@ -233,7 +233,7 @@ define([
             var self            = this,
                 currentItem     = this.get('item'),
                 moveSteps       = this.get('moveSteps'),
-                currentPosition = this.getCurrentPosition( currentItem ), 
+                currentPosition = this.getCurrentPosition( currentItem ),
                 otherItems      = _.filter( this.collection.models, function ( model ) {
                                     // Filter out the current item from the list
                                     return model !== self;
@@ -256,7 +256,7 @@ define([
         },
         /**
             * Changes the heading of the item
-            * 
+            *
             * @param {String} heading N | E | S | W
             */
         changeHeading: function( heading ) {
@@ -276,18 +276,18 @@ define([
                 newHeading = [ horisontalHeading, 'W' ];
             }
 
-            this.set( { 'heading': newHeading })
+            this.set( { 'heading': newHeading });
 
         },
         /**
             * Setup events
-            * 
+            *
             * @param {HTML element}
             */
         setupEvents: function( item ) {
             var self        = this,
                 container   = this.get('container'),
-                bounderies  = [ container.height(), container.width() ],                
+                bounderies  = [ container.height(), container.width() ],
                 speed       = this.get('speed');
 
 
@@ -299,4 +299,4 @@ define([
     
     return model;
     
-//});
+});

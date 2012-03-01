@@ -4,7 +4,7 @@
  * @version 1.0
  * @author Noah Laux (noahlaux@gmail.com)
  *
- * @return {Function} action
+ * @return {Function}
  */
 define( function() {
     /**
@@ -21,21 +21,22 @@ define( function() {
     var action = function( action, item, scene ) {
 
         // Check if direction exists in scene directions
-        if ( scene.directions[ action.direction ]) {
+        if ( scene.directions[ action.direction ] ) {
 
             // Calculate where to move the item in scene space
             var to = scene.calculatePosition( item, action.direction );
 
             // Move item to new position
-            item.set( {
-                'position': to
-            });
+            item.set( {'position': to} );
 
             // Only change direction if it is deferent than the current
             if ( action.direction !== item.get('direction') ) {
-                // Set new item direction in model, and this fire the view to render as well
-                item.set('direction', action.direction );
+                // Set new item direction in model, and this fire the item view to render as well
+                item.set( 'direction', action.direction );
             }
+
+        } else {
+            throw new Error('The direction: ' + action.direction + ' do not exists in allowed scene directions: ' + scene.directions);
         }
 
     };

@@ -7,9 +7,13 @@
  * @return {Backbone view}
  */
 define([
+    //Libraries
     'order!jquery',
     'order!underscore',
     'order!backbone',
+    // Utilities
+    'plugins/utilities/random',
+    // Logics
     'collections/gameItems',
     'views/items/gameItem',
     'views/surface/score',
@@ -22,8 +26,8 @@ define([
     'models/goals/checkScore8',
     // Physics
     'plugins/physics/checkContainerCollision',
-    'text!templates/items/funkyItem.html'
-    ], function( $, _, Backbone, GameItemsCollection, GameItemView, ScoreView, Actions, GoalCollection, checkScore5, checkScore8, CheckContainerCollision, funkyItemTemplate ) {
+    'views/surface/debug'
+    ], function( $, _, Backbone, Random, GameItemsCollection, GameItemView, ScoreView, Actions, GoalCollection, checkScore5, checkScore8, CheckContainerCollision, DebugView ) {
     
         var view = Backbone.View.extend({
             /**
@@ -36,13 +40,41 @@ define([
                 console.log('app view init');
          
                 var self = this;
-            
-                this.speed          = 20;
-                this.maxGameItems   = 5; // Max amount of game items pr scene at once
-                this.maxSteps       = 3; // Max step size for random generation
-                this.bounderies     = [ this.$el.width(), this.$el.height() ]; // Cached scene bounderies for later use
-                // Cached directions available to move on the scene
-                this.directions     = {
+                
+                /**
+                 * Scene step speed in ms
+                 *
+                 * @type {Number}
+                 */
+                this.speed = 30;
+                
+                /**
+                 * Maximum game items at stage at once if generated automatically
+                 *
+                 * @type {Number}
+                 */
+                this.maxGameItems = 5; // Max amount of game items pr scene at once
+                
+                /**
+                 * Maximum steps for game items to move at each step if generated automatically
+                 *
+                 * @type {Number}
+                 */
+                this.maxSteps = 6; // Max step size for random generation
+                
+                /**
+                 * A cached copy of the container bounderies for use in calculations
+                 *
+                 * @type {Array}
+                 */
+                this.bounderies = [ this.$el.width(), this.$el.height() ]; // Cached scene bounderies for later use
+                
+                /**
+                 * Cached directions available to move on the scene
+                 *
+                 * @type {Object}
+                 */
+                this.directions = {
                     "n":    [ 0, -1 ],
                     "ne":   [ 1, -1 ],
                     "e":    [ 1,  0 ],
@@ -54,32 +86,22 @@ define([
                 };
 
                 /**
-                 * Declare global goals for later access
+                 * Game item collection to choose from
                  *
-                 * @type {Backbone collection}
+                 * @type {GameItemsCollection}
                  */
-                this.goals = new GoalCollection([
-                    checkScore5,
-                    checkScore8
-                ]);
-            
-                /* Update cached scene container bounderies on window resize
-                   Comment out if scene container has fixed width */
-                $( window ).resize( function() {
-                    self.bounderies = [ self.$el.width(), self.$el.height() ];
+                this.gameItems = new GameItemsCollection({
+                    'url': 'scripts/data/gameitems.json'
                 });
-            
-                // Make game item collection list to choose from
-                this.gameItems = new GameItemsCollection();
-                
-                // Load game items from JSON
-                this.gameItems.url = 'scripts/data/gameitems.json';
-                this.gameItems.fetch();
                 
                 // Add game items when JSON has loaded and models put into collection
                 this.gameItems.bind('reset', this.addGameItems, this);
             
-                // Make collection for scene items (currrent on stage)
+                /**
+                 * Make collection for currrent scene items on stage
+                 *
+                 * @type {GameItemsCollection}
+                 */
                 this.sceneItems = new GameItemsCollection();
                 
                 // When game model is added to the scene items initiate its view
@@ -87,13 +109,59 @@ define([
                 
                 // When a collection of game models is recieved add these all at once
                 this.sceneItems.bind('reset', this.addAll, this);
+
                 //this.sceneItems.bind('all', this.render, this);
-            
+
+                /**
+                 * Declare global goals for later access
+                 *
+                 * @type {GoalCollection}
+                 */
+                this.goals = new GoalCollection([
+                    checkScore5,
+                    checkScore8
+                ]);
+
+                /**
+                 * Debug view
+                 *
+                 * @type {Backbone view}
+                 */
+                this.debugView = new DebugView({
+                    el: '#debug'
+                });
+
+                /**
+                 * Puts evaluation times on goal to debugger
+                 *
+                 * @param  {Array} goalDurations [description]
+                 *
+                 * @return N/A
+                 */
+                this.goals.on( 'evaluateDurations', function( goalDurations ){
+
+                    
+                    self.debugView.render({
+                        data: {
+                            goals: goalDurations
+                        },
+                        element: '.goals'
+                    });
+
+
+                });
+
                 // Start time on stage
                 this.setupEvents();
                 
                 // Render app view
                 this.render();
+
+                /* Update cached scene container bounderies on window resize
+                   Comment out if scene container has fixed width */
+                $( window ).resize( function() {
+                    self.bounderies = [ self.$el.width(), self.$el.height() ];
+                });
 
                 console.log("this", this);
     
@@ -145,6 +213,9 @@ define([
                     });
 
                     item.on( 'itemAllGoalsReached', scene.itemAllGoalsReached, this );
+
+                    item.on( 'allItemsAllGoalsReached', scene.allItemsAllGoalsReached, this );
+
                     // put goals into game item
                     item.set({
                         'goals': itemGoals,
@@ -169,18 +240,19 @@ define([
             /**
              * Adds a game item to scene items
              *
-             * @param {Backbone collection} collection Collection of available gane items
+             * @param {Backbone collection} gameItems Collection of available game items
              * @return N/A
              */
             addSceneItem: function( gameItems ) {
-            
-                // get random element from game item collection and clone it
+              
                 var scene   = this,
-                    element = randomElement( gameItems.models ).clone();
+                    // get random element from game item collection and clone it
+                    element = Random.arrayElement( gameItems.models ).clone();
 
+                // Assign random attributes within bounderies
                 element.set({
-                    'startPosition': [ ran(0, this.bounderies[0]), ran(0, this.bounderies[1]) ],
-                    'moveSteps': [ ran(1, this.maxSteps), ran(1, this.maxSteps) ]
+                    'startPosition': [ Random.integer(0, this.bounderies[0]), Random.integer(0, this.bounderies[1]) ],
+                    'moveSteps': [ Random.integer(1, this.maxSteps), Random.integer(1, this.maxSteps) ]
                 });
                 
                 // if element is destroyed summerize score chart
@@ -188,30 +260,7 @@ define([
                 
                 // Add item to current scene elements
                 this.sceneItems.add( element );
-            
-                /**
-                 * Get random element from an array of elements
-                 *
-                 * @param {Array} array
-                 * @return {Element}
-                 */
-                function randomElement( array ) {
-                    if ( array.length === 0 ) {
-                        throw new Error("The array is empty.");
-                    }
-                    return array[ Math.floor(Math.random() * array.length) ];
-                }
-                
-                /**
-                 * Calculates a random integer between min and max value
-                 *
-                 * @param {Integer} min
-                 * @param {Integer} max
-                 * @return {Integer}
-                 */
-                function ran (min, max) {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                }
+
             },
             /**
              * global function fired when a game item goal are mew
@@ -242,7 +291,7 @@ define([
              * @param {Backbone collection} items all current game items and their scores etc
              * @return N/A
              */
-            allItemsAllGoalReached: function( item, items ) {
+            allItemsAllGoalsReached: function( item, items ) {
                 // TODO
                 console.log('HURRAY All items all goals have been reached', item, items);
             },
@@ -316,10 +365,22 @@ define([
             
                 var self = this;
                 
+                this.goals.evaluated = [];
+                this.goals.goalDurations = [];
+
                 // Process the actions and goals for each item on scene
                 this.sceneItems.each( function( item ) {
                     self.processItem( item );
                 });
+
+                
+                self.debugView.render({
+                    data: {
+                        goals: this.goals.goalDurations
+                    },
+                    element: '.goals'
+                });
+
             
             },
             /**
@@ -338,6 +399,7 @@ define([
 
                 // Evaluate item goals
                 this.goals.evaluate( item, this.gameItems, this );
+
             },
             /**
              * Calculates new position if item is moved in asked direction with with the items step size
