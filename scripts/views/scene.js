@@ -373,15 +373,12 @@ define([
                     self.processItem( item );
                 });
 
-                /*
                 self.debugView.render({
                     data: {
                         goals: this.goals.goalDurations
                     },
                     element: '.goals'
                 });
-*/
-
             
             },
             /**
